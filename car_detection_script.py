@@ -6,6 +6,7 @@ st.write('Hello this is a little projet for our deep learning class')
 st.write('We were asked to design a model that is able to detect car in a video tape')
 
 st.sidebar.image("./image/logo.png")
+st.sidebar.write(" Our names")
 
 st.markdown('# Which model we will use ')
 
