@@ -1,7 +1,6 @@
 from turtle import width
 import streamlit as st
-import moviepy.editor as mp
-from moviepy.editor import *
+
 
 st.header('What is this project about ')
 
@@ -9,7 +8,7 @@ st.write('Hello this is a little projet for our deep learning class')
 st.write('We were asked to design a model that is able to detect car in a video tape')
 
 st.sidebar.image("./image/logo.png")
-st.sidebar.write(" Eliel KATCHE \t Sven LOTHE")
+st.sidebar.write("Eliel KATCHE      Sven LOTHE")
 
 st.markdown('# Which model we will use ')
 st.write('Yolov4')
