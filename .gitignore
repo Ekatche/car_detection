@@ -1,3 +1,7 @@
 /virtualenv
+<<<<<<< HEAD
 saved_model/my_first_model.h5
 "saved_model/tansfer_model.h5" 
+=======
+/saved_model/my_first_model.h5
+>>>>>>> main
