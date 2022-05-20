@@ -13,11 +13,9 @@ from tensorflow.keras.models import load_model
 from tensorflow import where
 
 # for local use plase remove : / "car_detection"
-cwd = Path.cwd().parent / "car_detection"
+#cwd = Path.cwd().parent / "car_detection"
+cwd = Path(os.path.dirname(__file__)).parent
 my_file = os.path.join(cwd,"saved_model","tansfer_model_2.h5")
-st.write(cwd)
-st.write(os.path.dirname(__file__))
-st.write(my_file)
 # model = load_model(model_dir, compile = True)
 model = load_model(my_file, compile = True)
 
