@@ -14,18 +14,16 @@ from tensorflow import where
 
 cwd = Path.cwd()
 path = os.path.dirname(cwd)
-act_path = os.path.dirname(__file__)
-st.write(act_path)
-my_file = os.path.join(path,"car_detection", "saved_model","tansfer_model_2.h5")
-st.write(my_file)
 
+my_file = os.path.join(path, "saved_model","tansfer_model_2.h5")
 
 # model = load_model(model_dir, compile = True)
 model = load_model(my_file, compile = True)
 
 class_names = ["Pas de voiture", "Voiture"]
 
-st.sidebar.image("../image/logo.png")
+my_file_logo = os.path.join(path,"car_detection", "image","logo.png")
+st.sidebar.image(my_file_logo)
 # st.sidebar.write('Hello this is a small projet for our deep learning class')
 st.sidebar.write("Eliel KATCHE  &  Sven LOTHE")
 
