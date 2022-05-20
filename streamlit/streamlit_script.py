@@ -60,7 +60,7 @@ if selected =="Try it !":
   st.image(my_file_v)
 
   st.write("As you can see, the quality of the images is very low, so do not be surprised if the model \
-    is not accurante when you give hime good quality pictures")
+    is not accurante when you give him good quality pictures")
 
   # Code for uploading and checking image
   user_image = None
