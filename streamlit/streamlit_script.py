@@ -14,6 +14,8 @@ from tensorflow import where
 
 cwd = Path.cwd()
 path = os.path.dirname(cwd)
+act_path = os.path.dirname(__file__)
+st.write(act_path)
 my_file = os.path.join(path, "saved_model","tansfer_model_2.h5")
 st.write(my_file)
 
