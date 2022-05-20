@@ -12,7 +12,8 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model  
 from tensorflow import where
 
-cwd = Path.cwd().parent
+# for local use plase remove : / "car_detection"
+cwd = Path.cwd().parent / "car_detection"
 my_file = os.path.join(cwd,"saved_model","tansfer_model_2.h5")
 st.write(cwd)
 st.write(os.path.dirname(__file__))
