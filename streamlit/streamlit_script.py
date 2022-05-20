@@ -12,17 +12,16 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model  
 from tensorflow import where
 
-cwd = Path.cwd()
-path = os.path.dirname(cwd)
-
-my_file = os.path.join(path, "saved_model","tansfer_model_2.h5")
+cwd = Path.cwd().parent
+my_file = os.path.join(cwd,"saved_model","tansfer_model_2.h5")
 
 # model = load_model(model_dir, compile = True)
 model = load_model(my_file, compile = True)
 
 class_names = ["Pas de voiture", "Voiture"]
 
-my_file_logo = os.path.join(path,"car_detection", "image","logo.png")
+my_file_logo = os.path.join(cwd, "image","logo.png")
+
 st.sidebar.image(my_file_logo)
 # st.sidebar.write('Hello this is a small projet for our deep learning class')
 st.sidebar.write("Eliel KATCHE  &  Sven LOTHE")
@@ -231,7 +230,8 @@ for images, labels in train_dataset.take(1):
 
   '''
   st.code( dataset_image , language='python')
-  st.image('../notebook_output/show_image_data.png')
+  my_file_3 = os.path.join(cwd, "notebook_output","show_image_data.png")
+  st.image(my_file_3)
 
   train_set_img= '''
 
@@ -247,7 +247,8 @@ for images, labels in test_dataset.take(1):
 
   '''
   st.code( train_set_img , language='python')
-  st.image('../notebook_output/test_set.png')
+  my_file_4 = os.path.join(cwd, "notebook_output","test_set.png")
+  st.image(my_file_4)
 
 
   validation_set_img = """
@@ -262,7 +263,8 @@ for images, labels in validation_dataset.take(1):
   plt.show()
   """
   st.code( validation_set_img , language='python')
-  st.image('../notebook_output/validation_set.png')
+  my_file_5 = os.path.join(cwd, "notebook_output","validation_set.png")
+  st.image(my_file_5)
 
   autotuning = '''
 AUTOTUNE = tf.data.AUTOTUNE
@@ -358,7 +360,8 @@ plt.show()
 
   """
   st.code( plot_learning , language='python')
-  st.image('../notebook_output/final_model.png')
+  my_file_5 = os.path.join(cwd, "notebook_output","final_model.png")
+  st.image(my_file_5)
 
   st.subheader('Evaluation')
 
@@ -377,7 +380,8 @@ for i in range(32):
   """
 
   st.code( test_batch , language='python')
-  st.image('../notebook_output/test_batch.png')
+  my_file_6 = os.path.join(cwd, "notebook_output","test_batch.png")
+  st.image(my_file_6)
 
 
   class_report_batch= '''
@@ -411,7 +415,8 @@ sns.heatmap(cf_matrix, annot=labels, fmt="")
   """
   st.code( class_report_batch , language='python')
   st.code( confusion_matrix_batch, language='python')
-  st.image('../notebook_output/confusion_matrix_batch.png')
+  my_file_7 = os.path.join(cwd, "notebook_output","confusion_matrix_batch.png")
+  st.image(my_file_7)
 
   global_eval='''
 all_preds=[]
@@ -452,4 +457,5 @@ sns.heatmap(cf_matrix, annot=labels, fmt="")
   '''
 
   st.code(gloabl_confusion_matrix, language='python')
-  st.image('../notebook_output/global_confusion.png')
+  my_file_8 = os.path.join(cwd, "notebook_output","global_confusion.png")
+  st.image(my_file_8)
