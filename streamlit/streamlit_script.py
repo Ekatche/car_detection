@@ -12,13 +12,14 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model  
 from tensorflow import where
 
-cwd = Path.cwd().parent
-relative_data_path = "saved_model/tansfer_model_2.h5"
-model_dir = cwd / relative_data_path
+cwd = Path.cwd()
+path = os.path.dirname(cwd)
+my_file = path+"\\saved_model\\tansfer_model_2.h5"
+st.write(my_file)
 
 
 # model = load_model(model_dir, compile = True)
-model = load_model("car_detection/saved_model/tansfer_model_2.h5", compile = True)
+model = load_model(my_file, compile = True)
 
 class_names = ["Pas de voiture", "Voiture"]
 
