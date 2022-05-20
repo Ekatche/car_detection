@@ -32,19 +32,19 @@ selected = option_menu(
 if selected == "Home":
   st.header('What is this project about')
 
-  st.markdown('We were asked to design a model that is able to detect car in a provided image.   \n  \
-      As, we were working with computing power constrains, we decided to use a \
-      pre trained  classification Deep learning architecture that offer one of a best accuracy score and \
-          that takes minimum time to train, thus, we decided to work with MobileNetV2')
+  st.markdown('We were asked to design a model that is able to detect a car in a provided image. \n \
+      As we were working with computing power constraints, we decided to use a \
+      pre-trained classification Deep learning architecture that offers one of the best accuracy scores and \
+      that takes minimum time to train, thus, we decided to work with MobileNetV2')
 
   st.markdown("[Check the references if you are interested](https://keras.io/api/applications/) ")
 
 
   st.subheader('Task and Objectives')
 
-  st.markdown('Our goal is to dectect whether an image depicts a car or not.  \n\
-      Therefore, we will train our model with a datasat containg images that depicts car and images that does not. \
-      Because our GPU ressources are limited, we have found a dataset with small enough images of 64 * 64 pixels.')
+  st.markdown('Our goal is to detect whether an image depicts a car. \n\
+  Therefore, we will train our model with a dataset containing images depicting cars and images that do not. \
+  Because our GPU resources were limited, we looked for a dataset with small enough 64 * 64 pixels images.')
 
   st.markdown("[Link to the datatset ](https://www.kaggle.com/datasets/brsdincer/vehicle-detection-image-set)")
 
@@ -60,7 +60,7 @@ if selected =="Try it !":
   st.image(my_file_v)
 
   st.write("As you can see, the quality of the images is very low, so do not be surprised if the model \
-    is not accurante when you give him good quality pictures")
+    is not 100 % accurante when you give him good quality pictures")
 
   # Code for uploading and checking image
   user_image = None
@@ -99,11 +99,11 @@ if selected == "Under the hood" :
 
   st.header('What is under the hood ?')
 
-  st.markdown('We began with import, preprocessing and split of the data \
-    then displayed them to get a better understanding \
-      we imported a pretrained model for transfer learning \
-        then fine tuned it to better fit our problem and data \
-          finaly we tested it and restart fine tuning until results were good enough')
+  st.markdown('We started by importing, preprocessing and splitting the data \
+  then displayed them to for a better understanding \
+  we imported a pre-trained model for transfer learning \
+  then fine-tuned it to better fit our problem and data \
+  finally, we tested it and kept refining it until the results were good enough')
 
   st.subheader('Data import and preprocessing')
 
@@ -123,7 +123,7 @@ if selected == "Under the hood" :
 
 
   st.markdown('We downloaded the data from [here](https://www.kaggle.com/datasets/brsdincer/vehicle-detection-image-set) \
-      as previously mentioned and then we declared our data directory in our notebook and ensure the path to be valid for anyone. \
+      as previously mentioned and then we declared our data directory in our notebook and made sure that the path was valid for all anyone. \
         To do that, we used Path from pathlib library to get working directory and append it with a relative path.')
 
   reformated_path = """
