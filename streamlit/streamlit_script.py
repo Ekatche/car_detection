@@ -261,3 +261,178 @@ st.markdown("Here we use buffered prefetching to load images from disk without h
 st.code(autotuning, language='python')
 
 st.subheader('Transfer learning ')
+
+model_import = """
+pretrained_model = tf.keras.applications.MobileNetV2(weights='imagenet', input_shape=(224, 224, 3), include_top=False)
+"""
+model_layers = '''
+for layer in pretrained_model.layers:
+        layer.trainable=False
+'''
+st.code( model_import , language='python')
+st.code( model_layers , language='python')
+
+layer_construnction= '''
+model = pretrained_model.output
+model = tf.keras.layers.GlobalAveragePooling2D()(model)
+model = tf.keras.layers.Dropout(0.2)(model)
+model = Dense(1)(model)
+model = tf.keras.Model(inputs = pretrained_model.input , outputs = model)
+'''
+st.code( layer_construnction , language='python')
+
+model_compile = '''
+base_learning_rate = 0.0001
+
+model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=base_learning_rate),
+              loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+              metrics=['accuracy'])
+'''
+
+model_fit= '''
+early_stop = tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss',
+    min_delta=0,
+    patience=3,
+    verbose=0,
+    mode='auto',
+    baseline=None,
+    restore_best_weights=False
+)
+
+initial_epochs = 6
+
+history = model.fit(train_dataset,
+                    epochs=initial_epochs,
+                    validation_data=validation_dataset,
+                    callbacks=[early_stop])
+'''
+st.code( model_compile , language='python')
+st.code( model_fit , language='python')
+
+st.write("Here is how our model learned model summary")
+
+plot_learning = """
+
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
+
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+plt.figure(figsize=(8, 8))
+plt.subplot(2, 1, 1)
+plt.plot(acc, label='Training Accuracy')
+plt.plot(val_acc, label='Validation Accuracy')
+plt.legend(loc='lower right')
+plt.ylabel('Accuracy')
+plt.ylim([min(plt.ylim()),1])
+plt.title('Training and Validation Accuracy')
+
+plt.subplot(2, 1, 2)
+plt.plot(loss, label='Training Loss')
+plt.plot(val_loss, label='Validation Loss')
+plt.legend(loc='upper right')
+plt.ylabel('Cross Entropy')
+plt.ylim([0,1.5])
+plt.title('Training and Validation Loss')
+plt.xlabel('epoch')
+plt.show()
+
+"""
+st.code( plot_learning , language='python')
+st.image('../notebook_output/final_model.png')
+
+st.subheader('Evaluation')
+
+test_batch = """
+image_batch, label_batch = test_dataset.as_numpy_iterator().next()
+predictions = model.predict_on_batch(image_batch).flatten()
+predictions = tf.where(predictions < 0, 0, 1)
+
+plt.figure(figsize=(16, 16))
+for i in range(32):
+  ax = plt.subplot(6, 6, i + 1)
+  plt.imshow(image_batch[i].astype("uint8"))
+  plt.title(class_names[predictions[i]])
+  plt.axis("off")
+
+"""
+
+st.code( test_batch , language='python')
+st.image('../notebook_output/test_batch.png')
+
+
+class_report_batch= '''
+
+print(classification_report(predictions,label_batch))
+
+
+precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00        31
+           1       1.00      1.00      1.00         1
+
+    accuracy                           1.00        32
+   macro avg       1.00      1.00      1.00        32
+weighted avg       1.00      1.00      1.00        32
+
+
+'''
+
+confusion_matrix_batch= """
+cf_matrix = confusion_matrix(predictions, label_batch)
+group_names = ['True Neg','False Pos','False Neg','True Pos']
+group_counts = ["{0:0.0f}".format(value) for value in
+                cf_matrix.flatten()]
+labels = [f"{v1}\n{v2}" for v1, v2 in
+          zip(group_names,group_counts)]
+
+labels = np.asarray(labels).reshape(2,2)
+
+sns.heatmap(cf_matrix, annot=labels, fmt="")
+"""
+st.code( class_report_batch , language='python')
+st.code( confusion_matrix_batch, language='python')
+st.image('../notebook_output/confusion_matrix_batch.png')
+
+global_eval='''
+all_preds=[]
+all_labels=[]
+for x in range(len(test_dataset)) : 
+    for image_batch, label_batch in test_dataset.as_numpy_iterator():
+         pred = model.predict_on_batch(image_batch).flatten()
+         preds = tf.where(pred < 0, 0, 1)
+         all_preds.extend(preds)
+         all_labels.extend(label_batch)
+
+print(classification_report(all_preds,all_labels))
+
+
+              precision    recall  f1-score   support
+
+           0       1.00      0.99      0.99      4168
+           1       0.91      1.00      0.95       440
+
+    accuracy                           0.99      4608
+   macro avg       0.95      0.99      0.97      4608
+weighted avg       0.99      0.99      0.99      4608
+
+'''
+st.code(global_eval, language='python')
+
+gloabl_confusion_matrix ='''
+
+cf_matrix = confusion_matrix(all_preds, all_labels)
+group_names = ['True Neg','False Pos','False Neg','True Pos']
+group_counts = ["{0:0.0f}".format(value) for value in
+                cf_matrix.flatten()]
+labels = [f"{v1}\n{v2}" for v1, v2 in
+          zip(group_names,group_counts)]
+
+labels = np.asarray(labels).reshape(2,2)
+
+sns.heatmap(cf_matrix, annot=labels, fmt="")
+'''
+
+st.code(gloabl_confusion_matrix, language='python')
