@@ -1,15 +1,22 @@
-# from turtle import width
+from turtle import width
 import streamlit as st
 import numpy as np
 from PIL import Image
 import io
+import os
+from pathlib import Path
 from streamlit_option_menu import option_menu
 
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model  
 from tensorflow import where
 
-model = load_model('../saved_model/tansfer_model_2.h5', compile = True)
+cwd = Path.cwd().parent
+relative_data_path = "saved_model/tansfer_model_2.h5"
+model_dir = cwd / relative_data_path
+
+
+model = load_model(model_dir, compile = True)
 class_names = ["Pas de voiture", "Voiture"]
 
 st.sidebar.image("../image/logo.png")
