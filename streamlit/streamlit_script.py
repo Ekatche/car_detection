@@ -6,12 +6,13 @@ import io
 
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
+from tensorflow import where
 
 model = load_model('../saved_model/tansfer_model.h5', compile = True)
 class_names = ["Pas de voiture", "Voiture"]
 
 st.sidebar.image("../image/logo.png")
-st.sidebar.write('Hello this is a small projet for our deep learning class')
+# st.sidebar.write('Hello this is a small projet for our deep learning class')
 st.sidebar.write("Eliel KATCHE  &  Sven LOTHE")
 
 
@@ -52,17 +53,20 @@ if user_image:
   st.write("Here is your image: ")
   st.image(user_image)
 
-  st.write("Our model prediction is :")
 
   byte_image = Image.open(io.BytesIO(user_image.getvalue()))
-  resized_image = image.smart_resize(byte_image, (224, 224))
-  array_image = image.img_to_array(resized_image)
-  model_compatible_image = np.expand_dims(array_image, axis=0)
-  
-  answer = model.predict(model_compatible_image)
-  output_class=class_names[np.argmax(answer[0])]
+  try : 
+    resized_image = image.smart_resize(byte_image, (224, 224))
+    array_image = image.img_to_array(resized_image)
+    model_compatible_image = np.expand_dims(array_image, axis=0)
+    st.write("Our model prediction is :")
+    answer = model.predict(model_compatible_image)
+    predictions = where(answer[0] < 0, 0, 1)
+    output_class = class_names[predictions.numpy()[0]]
+    st.write(output_class)
+  except:
+    st.warning("Please choose another image, the current image is not correct")
 
-  st.write(output_class)
 
 ######
 st.write("######################################################")
