@@ -12,17 +12,14 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model  
 from tensorflow import where
 
-# for local use plase remove : / "car_detection"
-#cwd = Path.cwd().parent / "car_detection"
+
 cwd = Path(os.path.dirname(__file__)).parent
 my_file = os.path.join(cwd,"saved_model","tansfer_model_2.h5")
-# model = load_model(model_dir, compile = True)
 model = load_model(my_file, compile = True)
 
 class_names = ["Pas de voiture", "Voiture"]
 
 my_file_logo = os.path.join(cwd, "image","logo.png")
-
 st.sidebar.image(my_file_logo)
 # st.sidebar.write('Hello this is a small projet for our deep learning class')
 st.sidebar.write("Eliel KATCHE  &  Sven LOTHE")
@@ -53,6 +50,17 @@ if selected == "Home":
 
 if selected =="Try it !": 
   st.subheader('Try it out !')
+  # Message to users 
+
+  st.write('before using the model, we just wanted to remind you that the model was trained with images like this :')
+  my_file_nv = os.path.join(cwd, "image",'data',"non-vehicles","extra12.png")
+  st.image(my_file_nv)
+  st.write("or this")
+  my_file_v = os.path.join(cwd, "image",'data',"vehicles","10.png")
+  st.image(my_file_v)
+
+  st.write("As you can see, the quality of the images is very low, so do not be surprised if the model \
+    is not accurante when you give hime good quality pictures")
 
   # Code for uploading and checking image
   user_image = None
@@ -85,7 +93,7 @@ if selected =="Try it !":
       st.warning("Please choose another image, the current image is not correct")
 
 
-
+############################### code part ################################################
 
 if selected == "Under the hood" : 
 
@@ -146,8 +154,8 @@ if selected == "Under the hood" :
       crop_to_aspect_ratio=False,
   )
 
-  >>> Found 9999 files belonging to 2 classes.
-  >>> Using 8000 files for training.
+  >>> Found 17760 files belonging to 2 classes.
+  >>> Using 14208 files for training.
 
   '''
   st.code(train_dataset, language='python')
@@ -171,8 +179,8 @@ if selected == "Under the hood" :
       crop_to_aspect_ratio=False,
   )
 
-  >>> Found 9999 files belonging to 2 classes.
-  >>> Using 1999 files for validation.
+  >>> Found 17760 files belonging to 2 classes.
+  >>> Using 3552 files for validation.
   '''
   st.code(test_dataset, language='python')
 
@@ -209,25 +217,25 @@ if selected == "Under the hood" :
 
 
   class_names = '''
-class_names = np.array(sorted([item.name for item in data_dir.glob('*')]))
-print(class_names)
+  class_names = np.array(sorted([item.name for item in data_dir.glob('*')]))
+  print(class_names)
 
->>> ['non-vehicles' 'vehicles']
+  >>> ['non-vehicles' 'vehicles']
   '''
   st.code( class_names , language='python')
 
 
   dataset_image = '''
-# display one bach of each dataset (training, test_dataset and validation) 
-for images, labels in train_dataset.take(1):
-  plt.figure(figsize=(16, 8))
-  plt.suptitle("Training set")
-  for i in range(10):
-    ax = plt.subplot(2, 5, i + 1)
-    plt.imshow(images[i].numpy().astype("uint8"))
-    plt.title(class_names[labels[i]])
-    plt.axis("off")
-  plt.show()
+  # display one bach of each dataset (training, test_dataset and validation) 
+  for images, labels in train_dataset.take(1):
+    plt.figure(figsize=(16, 8))
+    plt.suptitle("Training set")
+    for i in range(10):
+      ax = plt.subplot(2, 5, i + 1)
+      plt.imshow(images[i].numpy().astype("uint8"))
+      plt.title(class_names[labels[i]])
+      plt.axis("off")
+    plt.show()
 
   '''
   st.code( dataset_image , language='python')
@@ -235,16 +243,15 @@ for images, labels in train_dataset.take(1):
   st.image(my_file_3)
 
   train_set_img= '''
-
-for images, labels in test_dataset.take(1):
-  plt.figure(figsize=(16, 8))
-  plt.suptitle("Testing set")
-  for i in range(10):
-    ax = plt.subplot(2, 5, i + 1)
-    plt.imshow(images[i].numpy().astype("uint8"))
-    plt.title(class_names[labels[i]])
-    plt.axis("off")
-  plt.show()
+  for images, labels in test_dataset.take(1):
+    plt.figure(figsize=(16, 8))
+    plt.suptitle("Testing set")
+    for i in range(10):
+      ax = plt.subplot(2, 5, i + 1)
+      plt.imshow(images[i].numpy().astype("uint8"))
+      plt.title(class_names[labels[i]])
+      plt.axis("off")
+    plt.show()
 
   '''
   st.code( train_set_img , language='python')
@@ -253,26 +260,26 @@ for images, labels in test_dataset.take(1):
 
 
   validation_set_img = """
-for images, labels in validation_dataset.take(1):
-  plt.figure(figsize=(16, 8))
-  plt.suptitle("Validation set")
-  for i in range(10):
-    ax = plt.subplot(2, 5, i + 1)
-    plt.imshow(images[i].numpy().astype("uint8"))
-    plt.title(class_names[labels[i]])
-    plt.axis("off")
-  plt.show()
+  for images, labels in validation_dataset.take(1):
+    plt.figure(figsize=(16, 8))
+    plt.suptitle("Validation set")
+    for i in range(10):
+      ax = plt.subplot(2, 5, i + 1)
+      plt.imshow(images[i].numpy().astype("uint8"))
+      plt.title(class_names[labels[i]])
+      plt.axis("off")
+    plt.show()
   """
   st.code( validation_set_img , language='python')
   my_file_5 = os.path.join(cwd, "notebook_output","validation_set.png")
   st.image(my_file_5)
 
   autotuning = '''
-AUTOTUNE = tf.data.AUTOTUNE
+  AUTOTUNE = tf.data.AUTOTUNE
 
-train_dataset = train_dataset.prefetch(buffer_size=AUTOTUNE)
-validation_dataset = validation_dataset.prefetch(buffer_size=AUTOTUNE)
-test_dataset = test_dataset.prefetch(buffer_size=AUTOTUNE)
+  train_dataset = train_dataset.prefetch(buffer_size=AUTOTUNE)
+  validation_dataset = validation_dataset.prefetch(buffer_size=AUTOTUNE)
+  test_dataset = test_dataset.prefetch(buffer_size=AUTOTUNE)
   '''
 
   st.markdown("Here we use buffered prefetching to load images from disk without having I/O become blocking.\
@@ -392,27 +399,24 @@ print(classification_report(predictions,label_batch))
 
               precision    recall  f1-score   support
 
-          0       0.92      1.00      0.96        12
-          1       1.00      0.95      0.97        20
+           0       0.92      1.00      0.96        12
+           1       1.00      0.95      0.97        20
 
-  accuracy                           0.97        32
-  macro avg       0.96      0.97      0.97        32
+    accuracy                           0.97        32
+    acro avg       0.96      0.97      0.97        32
 weighted avg       0.97      0.97      0.97        32
 
 
   '''
 
   confusion_matrix_batch= """
-cf_matrix = confusion_matrix(predictions, label_batch)
-group_names = ['True Neg','False Pos','False Neg','True Pos']
-group_counts = ["{0:0.0f}".format(value) for value in
-                cf_matrix.flatten()]
-labels = [f"{v1}\n{v2}" for v1, v2 in
-          zip(group_names,group_counts)]
+  cf_matrix = confusion_matrix(predictions, label_batch)
+  group_names = ['True Neg','False Pos','False Neg','True Pos']
+  group_counts = ["{0:0.0f}".format(value) for value in cf_matrix.flatten()]
+  labels = [f"{v1}\\n{v2}" for v1, v2 in zip(group_names,group_counts)]
+  labels = np.asarray(labels).reshape(2,2)
 
-labels = np.asarray(labels).reshape(2,2)
-
-sns.heatmap(cf_matrix, annot=labels, fmt="")
+  sns.heatmap(cf_matrix, annot=labels, fmt="")
   """
   st.code( class_report_batch , language='python')
   st.code( confusion_matrix_batch, language='python')
@@ -434,27 +438,24 @@ print(classification_report(all_preds,all_labels))
 
               precision    recall  f1-score   support
 
-          0       0.97      0.96      0.97      7505
-          1       0.97      0.97      0.97      7983
+           0       0.97      0.96      0.97      7505
+           1       0.97      0.97      0.97      7983
 
     accuracy                           0.97     15488
-  macro avg       0.97      0.97      0.97     15488
+   macro avg       0.97      0.97      0.97     15488
 weighted avg       0.97      0.97      0.97     15488
 
   '''
   st.code(global_eval, language='python')
 
   gloabl_confusion_matrix ='''
-cf_matrix = confusion_matrix(all_preds, all_labels)
-group_names = ['True Neg','False Pos','False Neg','True Pos']
-group_counts = ["{0:0.0f}".format(value) for value in
-                cf_matrix.flatten()]
-labels = [f"{v1}\n{v2}" for v1, v2 in
-          zip(group_names,group_counts)]
+  cf_matrix = confusion_matrix(all_preds, all_labels)
+  group_names = ['True Neg','False Pos','False Neg','True Pos']
+  group_counts = ["{0:0.0f}".format(value) for value in cf_matrix.flatten()]
+  labels = [f"{v1}\\n{v2}" for v1, v2 in zip(group_names,group_counts)]
+  labels = np.asarray(labels).reshape(2,2)
 
-labels = np.asarray(labels).reshape(2,2)
-
-sns.heatmap(cf_matrix, annot=labels, fmt="")
+  sns.heatmap(cf_matrix, annot=labels, fmt="")
   '''
 
   st.code(gloabl_confusion_matrix, language='python')
