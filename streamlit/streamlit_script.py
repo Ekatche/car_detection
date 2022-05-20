@@ -18,7 +18,7 @@ model_dir = cwd / relative_data_path
 
 
 # model = load_model(model_dir, compile = True)
-model = load_model("../saved_model/tansfer_model_2.h5", compile = True)
+model = load_model("car_detection/saved_model/tansfer_model_2.h5", compile = True)
 
 class_names = ["Pas de voiture", "Voiture"]
 
