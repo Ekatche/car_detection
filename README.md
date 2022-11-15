@@ -1,6 +1,6 @@
 # car_detection
 
-project done by ...
-available on 
+project done by 
+available on https://ekatche-car-detection-streamlitstreamlit-script-7nung2.streamlit.app/
 
-stramlit doc https://docs.streamlit.io/
+streamlit doc https://docs.streamlit.io/
